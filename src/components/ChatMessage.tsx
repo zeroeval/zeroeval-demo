@@ -2,17 +2,17 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
+import { Message } from "@/lib/types";
 import { ThumbsDown, ThumbsUp } from "lucide-react";
 import { useState } from "react";
 
 type ChatMessageProps = {
-  content: string;
-  isUser: boolean;
-  timestamp: string;
+  message: Message;
 };
 
-export function ChatMessage({ content, isUser, timestamp }: ChatMessageProps) {
+export function ChatMessage({ message }: ChatMessageProps) {
   const [rating, setRating] = useState<"up" | "down" | null>(null);
+  const { content, isUser, timestamp } = message;
 
   return (
     <div

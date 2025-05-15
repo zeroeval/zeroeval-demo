@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Customer Service Chat App
+
+A simple customer service chat application that uses OpenAI's GPT to respond to user queries.
+
+## Features
+
+- Clean, modern UI built with Next.js, React, and Tailwind CSS
+- Real-time interaction with OpenAI's GPT model
+- Thumbs up/down rating system for agent responses
+- Responsive design
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Set up your OpenAI API key:
+
+Create a `.env.local` file in the root directory with the following:
+
+```
+OPENAI_API_KEY=your-openai-api-key-here
+```
+
+Replace `your-openai-api-key-here` with your actual OpenAI API key. You can get an API key from [OpenAI's platform](https://platform.openai.com/api-keys).
+
+4. Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Usage
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Type a message in the input field and press enter or click the send button
+- The app will send your message to OpenAI and display the response
+- You can rate the AI's responses with thumbs up or thumbs down
 
-## Learn More
+## Technology Stack
 
-To learn more about Next.js, take a look at the following resources:
+- Next.js 15
+- React 19
+- Tailwind CSS 4
+- shadcn/ui
+- OpenAI API
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Note
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This is a frontend demonstration with basic OpenAI integration. In a production environment, you would want to:
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Move the API key to a secure backend
+2. Implement proper error handling and rate limiting
+3. Add user authentication and conversation history
+4. Implement proper context management for the AI
