@@ -60,6 +60,7 @@ export function ChatInput({ onSendMessage, setIsLoading }: ChatInputProps) {
         content: data.response,
         isUser: false,
         timestamp: data.timestamp,
+        completion_id: data.completion_id,
       });
     } catch (error) {
       console.error("Error sending message:", error);

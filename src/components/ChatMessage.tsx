@@ -12,7 +12,60 @@ type ChatMessageProps = {
 
 export function ChatMessage({ message }: ChatMessageProps) {
   const [rating, setRating] = useState<"up" | "down" | null>(null);
-  const { content, isUser, timestamp } = message;
+  const { content, isUser, timestamp, completion_id } = message;
+
+  const submitFeedback = async (isPositive: boolean) => {
+    if (!completion_id) {
+      console.error("No completion_id available for this message");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        "https://api.zeroeval.com/workspaces/9edf6eb1-0403-4e98-93b0-d214ea453cc3/tests/annotation",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_ZEROEVAL_API_KEY}`,
+          },
+          body: JSON.stringify({
+            completion_id: completion_id,
+            name: "Acceptance",
+            value: isPositive ? "true" : "false",
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to submit feedback: ${response.status}`);
+      }
+
+      console.log(
+        `Feedback submitted: ${isPositive ? "positive" : "negative"}`
+      );
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+    }
+  };
+
+  const handleThumbsUp = () => {
+    const newRating = rating === "up" ? null : "up";
+    setRating(newRating);
+
+    if (newRating === "up") {
+      submitFeedback(true);
+    }
+  };
+
+  const handleThumbsDown = () => {
+    const newRating = rating === "down" ? null : "down";
+    setRating(newRating);
+
+    if (newRating === "down") {
+      submitFeedback(false);
+    }
+  };
 
   return (
     <div
@@ -49,18 +102,16 @@ export function ChatMessage({ message }: ChatMessageProps) {
         >
           <span className="text-xs text-muted-foreground">{timestamp}</span>
 
-          {!isUser && (
+          {!isUser && message.id !== "welcome" && (
             <div className="flex items-center gap-1">
               <button
                 className={cn(
-                  "flex items-center justify-center h-5 w-5 rounded-full transition-colors",
+                  "flex items-center justify-center h-5 w-5 rounded-full transition-colors cursor-pointer",
                   rating === "up"
                     ? "text-green-600 bg-green-50"
                     : "text-gray-400 hover:text-green-600 hover:bg-green-50"
                 )}
-                onClick={() =>
-                  setRating((prev) => (prev === "up" ? null : "up"))
-                }
+                onClick={handleThumbsUp}
               >
                 <ThumbsUp
                   className="h-3 w-3"
@@ -69,14 +120,12 @@ export function ChatMessage({ message }: ChatMessageProps) {
               </button>
               <button
                 className={cn(
-                  "flex items-center justify-center h-5 w-5 rounded-full transition-colors",
+                  "flex items-center justify-center h-5 w-5 rounded-full transition-colors cursor-pointer",
                   rating === "down"
                     ? "text-red-600 bg-red-50"
                     : "text-gray-400 hover:text-red-600 hover:bg-red-50"
                 )}
-                onClick={() =>
-                  setRating((prev) => (prev === "down" ? null : "down"))
-                }
+                onClick={handleThumbsDown}
               >
                 <ThumbsDown
                   className="h-3 w-3"

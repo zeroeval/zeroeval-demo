@@ -1,13 +1,20 @@
-# Customer Service Chat App
+# ZeroEval Demo: Customer Service Chat App
 
-A simple customer service chat application that uses OpenAI's GPT to respond to user queries.
+This demo project showcases [ZeroEval](https://zeroeval.com), a platform for effortless A/B testing of LLMs in production. The app demonstrates how to implement our drop-in proxy endpoint and getting instant feedback on model performance from users through an example customer service chat application.
 
-## Features
+## What is ZeroEval?
 
-- Clean, modern UI built with Next.js, React, and Tailwind CSS
-- Real-time interaction with OpenAI's GPT model
-- Thumbs up/down rating system for agent responses
-- Responsive design
+ZeroEval provides a drop-in proxy endpoint that allows you to:
+
+- Split-test different AI models and prompts
+- Capture user feedback (thumbs up/down) on responses
+- Analyze which models perform better based on real user interaction
+- Make data-driven decisions about which models to use in production
+
+## Demo Features
+
+- **ZeroEval Proxy Integration**: Routes AI requests through ZeroEval's proxy endpoint
+- **Feedback Attribution**: Captures thumbs up/down ratings and ties them to specific completions
 
 ## Getting Started
 
@@ -18,15 +25,16 @@ A simple customer service chat application that uses OpenAI's GPT to respond to 
 npm install
 ```
 
-3. Set up your OpenAI API key:
+3. Set up your ZeroEval API key:
 
-Create a `.env.local` file in the root directory with the following:
+Create a `.env` file in the root directory with the following:
 
 ```
-OPENAI_API_KEY=your-openai-api-key-here
+NEXT_PUBLIC_ZEROEVAL_API_KEY=
+OPENAI_API_KEY=
 ```
 
-Replace `your-openai-api-key-here` with your actual OpenAI API key. You can get an API key from [OpenAI's platform](https://platform.openai.com/api-keys).
+You can get a ZeroEval API key from the [ZeroEval dashboard](https://zeroeval.com).
 
 4. Run the development server:
 
@@ -36,11 +44,51 @@ npm run dev
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the app.
 
-## Usage
+## How It Works
 
-- Type a message in the input field and press enter or click the send button
-- The app will send your message to OpenAI and display the response
-- You can rate the AI's responses with thumbs up or thumbs down
+### ZeroEval Proxy Integration
+
+The app uses ZeroEval's proxy endpoint instead of calling OpenAI directly. This is configured in `src/app/api/chat/route.ts`:
+
+```typescript
+const openai = new OpenAI({
+  apiKey: process.env.NEXT_PUBLIC_ZEROEVAL_API_KEY,
+  baseURL: "https://api.zeroeval.com/proxy"
+});
+
+const completion = await openai.chat.completions.create({
+  model: "zeroeval/<model-id>",
+  messages: [...],
+});
+```
+
+To get a model ID, you need to create a new test through the [ZeroEval dashboard](https://zeroeval.com).
+
+### Feedback Attribution
+
+The app captures user feedback using thumbs up/down buttons and sends it to ZeroEval in `src/components/ChatMessage.tsx`:
+
+```typescript
+const submitFeedback = async (isPositive: boolean) => {
+  if (!completion_id) return;
+
+  const response = await fetch(
+    "https://api.zeroeval.com/workspaces/<workspace-id>/tests/annotation",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_ZEROEVAL_API_KEY}`,
+      },
+      body: JSON.stringify({
+        completion_id: completion_id,
+        name: "Acceptance",
+        value: isPositive ? "true" : "false",
+      }),
+    }
+  );
+};
+```
 
 ## Technology Stack
 
@@ -48,13 +96,8 @@ npm run dev
 - React 19
 - Tailwind CSS 4
 - shadcn/ui
-- OpenAI API
+- ZeroEval API
 
-## Note
+## Questions
 
-This is a frontend demonstration with basic OpenAI integration. In a production environment, you would want to:
-
-1. Move the API key to a secure backend
-2. Implement proper error handling and rate limiting
-3. Add user authentication and conversation history
-4. Implement proper context management for the AI
+Email us at [founders@zeroeval.com](mailto:founders@zeroeval.com) for questions, feeback or support.

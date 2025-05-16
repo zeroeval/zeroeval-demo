@@ -3,4 +3,5 @@ export type Message = {
   content: string;
   isUser: boolean;
   timestamp: string;
+  completion_id?: string;
 }; 
