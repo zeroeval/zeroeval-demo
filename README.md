@@ -1,8 +1,10 @@
 ![Demo screenshot](public/demo-1.png)
 
 <div align="center">
-# ZeroEval Demo App
+    <h1 style="font-weight: bold;">ZeroEval Demo App</h1>
 </div>
+
+<br>
 
 This demo project showcases [ZeroEval](https://zeroeval.com), a platform for effortless A/B testing of LLMs in production. The app demonstrates how to implement our drop-in proxy endpoint and getting instant feedback on model performance from users through an example customer service chat application.
 
