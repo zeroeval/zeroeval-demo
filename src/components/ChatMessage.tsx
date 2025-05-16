@@ -75,7 +75,46 @@ export function ChatMessage({ message }: ChatMessageProps) {
       )}
     >
       <Avatar className="h-9 w-9 flex-shrink-0">
-        <AvatarImage src={isUser ? "/user-avatar.svg" : "/agent-avatar.svg"} />
+        {isUser ? (
+          <AvatarImage src="/user-avatar.svg" />
+        ) : (
+          <div className="flex items-center justify-center h-full w-full bg-primary/5">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              className="text-primary"
+              style={{ shapeRendering: "crispEdges" }}
+            >
+              {Array.from({ length: 9 }).map((_, i) => {
+                // Each cell is 8×8 in a 3×3 grid within a 24×24 viewBox.
+                const row = Math.floor(i / 3);
+                const col = i % 3;
+                const x = col * 8;
+                const y = row * 8;
+
+                // Cells 1, 2, 4, 6, 8, 9 are black; the rest are white.
+                const cellNumber = i + 1;
+                const blackSquares = [1, 2, 4, 6, 8, 9];
+                const fillColor = blackSquares.includes(cellNumber)
+                  ? "currentColor"
+                  : "transparent";
+
+                return (
+                  <rect
+                    key={i}
+                    x={x}
+                    y={y}
+                    width={8}
+                    height={8}
+                    fill={fillColor}
+                  />
+                );
+              })}
+            </svg>
+          </div>
+        )}
         <AvatarFallback>{isUser ? "U" : "A"}</AvatarFallback>
       </Avatar>
       <div
