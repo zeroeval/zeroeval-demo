@@ -31,10 +31,11 @@ Create a `.env` file in the root directory with the following:
 
 ```
 NEXT_PUBLIC_ZEROEVAL_API_KEY=
+NEXT_PUBLIC_ZEROEVAL_WORKSPACE_ID=
 OPENAI_API_KEY=
 ```
 
-You can get a ZeroEval API key from the [ZeroEval dashboard](https://zeroeval.com).
+You can get a ZeroEval API key and workspace ID from the [ZeroEval dashboard](https://zeroeval.com).
 
 4. Run the development server:
 

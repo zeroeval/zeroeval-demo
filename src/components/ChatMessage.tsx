@@ -22,7 +22,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
 
     try {
       const response = await fetch(
-        "https://api.zeroeval.com/workspaces/9edf6eb1-0403-4e98-93b0-d214ea453cc3/tests/annotation",
+        `https://api.zeroeval.com/workspaces/${process.env.NEXT_PUBLIC_ZEROEVAL_WORKSPACE_ID}/tests/annotation`,
         {
           method: "POST",
           headers: {
