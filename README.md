@@ -91,14 +91,6 @@ const submitFeedback = async (isPositive: boolean) => {
 };
 ```
 
-## Technology Stack
-
-- Next.js 15
-- React 19
-- Tailwind CSS 4
-- shadcn/ui
-- ZeroEval API
-
 ## Questions
 
 Email us at [founders@zeroeval.com](mailto:founders@zeroeval.com) for questions, feeback or support.
