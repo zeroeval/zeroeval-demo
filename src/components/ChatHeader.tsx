@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar } from "@/components/ui/avatar";
 
 export function ChatHeader() {
   return (
@@ -41,7 +41,6 @@ export function ChatHeader() {
               })}
             </svg>
           </div>
-          <AvatarFallback>CS</AvatarFallback>
         </Avatar>
         <div className="flex flex-col">
           <h3 className="font-semibold text-sm">Customer Support Agent</h3>

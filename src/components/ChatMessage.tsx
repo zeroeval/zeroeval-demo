@@ -76,7 +76,10 @@ export function ChatMessage({ message }: ChatMessageProps) {
     >
       <Avatar className="h-9 w-9 flex-shrink-0">
         {isUser ? (
-          <AvatarImage src="/user-avatar.svg" />
+          <>
+            <AvatarImage src="/user-avatar.svg" />
+            <AvatarFallback>U</AvatarFallback>
+          </>
         ) : (
           <div className="flex items-center justify-center h-full w-full bg-primary/5">
             <svg
@@ -115,7 +118,6 @@ export function ChatMessage({ message }: ChatMessageProps) {
             </svg>
           </div>
         )}
-        <AvatarFallback>{isUser ? "U" : "A"}</AvatarFallback>
       </Avatar>
       <div
         className={cn(

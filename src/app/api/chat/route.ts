@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     }
 
     const completion = await openai.chat.completions.create({
-      model: "zeroeval/5bff2edf-9f1a-4c3f-93bc-cea27b0e10d7",
+      model: "zeroeval/b6abd0bd-7aa8-4b71-a1bc-7ecda8ab4606",
       messages: [
         {
           role: "system",
