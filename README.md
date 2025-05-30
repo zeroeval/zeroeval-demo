@@ -20,7 +20,7 @@ ZeroEval provides a drop-in proxy endpoint that allows you to:
 ## Demo Features
 
 - **ZeroEval Proxy Integration**: Routes AI requests through ZeroEval's proxy endpoint
-- **Feedback Attribution**: Captures thumbs up/down ratings and ties them to specific completions
+- **Feedback Signals**: Captures thumbs up/down ratings and ties them to specific completions
 
 ## Getting Started
 
@@ -71,7 +71,7 @@ const completion = await openai.chat.completions.create({
 
 To get a model ID, you need to create a new test through the [ZeroEval dashboard](https://zeroeval.com).
 
-### Feedback Attribution
+### Feedback Signals
 
 The app captures user feedback using thumbs up/down buttons and sends it to ZeroEval in `src/components/ChatMessage.tsx`:
 
@@ -80,7 +80,7 @@ const submitFeedback = async (isPositive: boolean) => {
   if (!completion_id) return;
 
   const response = await fetch(
-    "https://api.zeroeval.com/workspaces/<workspace-id>/tests/annotation",
+    "https://api.zeroeval.com/workspaces/<workspace-id>/tests/signals",
     {
       method: "POST",
       headers: {

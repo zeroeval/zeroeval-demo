@@ -55,7 +55,11 @@ export function ChatContainer() {
           <div ref={messagesEndRef} />
         </div>
       </ScrollArea>
-      <ChatInput onSendMessage={handleNewMessage} setIsLoading={setIsLoading} />
+      <ChatInput
+        onSendMessage={handleNewMessage}
+        setIsLoading={setIsLoading}
+        messages={messages}
+      />
     </Card>
   );
 }

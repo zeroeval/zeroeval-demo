@@ -9,9 +9,14 @@ import { Message } from "@/lib/types";
 interface ChatInputProps {
   onSendMessage: (message: Message) => void;
   setIsLoading: (loading: boolean) => void;
+  messages: Message[];
 }
 
-export function ChatInput({ onSendMessage, setIsLoading }: ChatInputProps) {
+export function ChatInput({
+  onSendMessage,
+  setIsLoading,
+  messages,
+}: ChatInputProps) {
   const [inputValue, setInputValue] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -39,13 +44,27 @@ export function ChatInput({ onSendMessage, setIsLoading }: ChatInputProps) {
     setIsLoading(true);
 
     try {
+      // Convert messages to the format expected by the API
+      const apiMessages = messages
+        .filter((msg) => msg.id !== "welcome") // Exclude welcome message
+        .map((msg) => ({
+          role: msg.isUser ? "user" : ("assistant" as const),
+          content: msg.content,
+        }));
+
+      // Add the current user message
+      apiMessages.push({
+        role: "user" as const,
+        content: userMessage.content,
+      });
+
       // Call our API endpoint
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: userMessage.content }),
+        body: JSON.stringify({ messages: apiMessages }),
       });
 
       const data = await response.json();

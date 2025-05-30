@@ -8,17 +8,17 @@ const openai = new OpenAI({
 
 export async function POST(req: Request) {
   try {
-    const { message } = await req.json();
+    const { messages } = await req.json();
 
-    if (!message) {
+    if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return NextResponse.json(
-        { error: "Message is required" },
+        { error: "Messages array is required and cannot be empty" },
         { status: 400 }
       );
     }
 
     const completion = await openai.chat.completions.create({
-      model: "zeroeval/b6abd0bd-7aa8-4b71-a1bc-7ecda8ab4606",
+      model: "zeroeval/285492a4-c9af-4bd0-9344-0cfc8745c42b",
       messages: [
         {
           role: "system",
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
             "Remember that your primary goal is to solve the customer's problem efficiently while making them feel valued and respected."
           ].join('\n'),
         },
-        { role: "user", content: message },
+        ...messages,
       ],
     });
 
