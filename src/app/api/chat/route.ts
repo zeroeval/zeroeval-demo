@@ -2,7 +2,7 @@ import { OpenAI } from "openai";
 import { NextResponse } from "next/server";
 
 const openai = new OpenAI({
-  apiKey: process.env.NEXT_PUBLIC_ZEROEVAL_API_KEY,
+  apiKey: "sk_ze__uYtBV28goRDsjbUiXthfn81GGlyJ8TgnJv0CA8S7jA",
   baseURL: "https://api.zeroeval.com/proxy"
 });
 
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     }
 
     const completion = await openai.chat.completions.create({
-      model: "zeroeval/285492a4-c9af-4bd0-9344-0cfc8745c42b",
+      model: "zeroeval/b6abd0bd-7aa8-4b71-a1bc-7ecda8ab4606",
       messages: [
         {
           role: "system",
